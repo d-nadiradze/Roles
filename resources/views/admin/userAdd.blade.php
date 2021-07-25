@@ -20,13 +20,13 @@
                         </div>
 
                         <div class="form-group pl-2 pr-2">
-                            <label for="password">password</label>
-                            <input class="form-control" type="password" name="password" id="password">
+                            <label for="password">{{ __('Password') }}</label>
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                         </div>
 
                         <div class="form-group pl-2 pr-2">
-                            <label  for="confirm-password">Confirm password</label>
-                            <input class="form-control" type="password" name="confirm-password">
+                            <label  for="confirm-password">{{ __('Confirm Password') }}</label>
+                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                         </div>
 
                         <div class="form-group pl-2 pr-2">

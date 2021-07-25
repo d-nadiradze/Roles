@@ -34,7 +34,21 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav ml-4">
-                        <a href="{{route('post.show')}}">Posts</a>
+
+                        @role('admin')
+                        <li class="mr-3">
+                            <a href="{{route('admin.role')}}">Role</a>
+                        </li>
+
+                        <li class="mr-3">
+                            <a href="{{route('admin.admin')}}">Users</a>
+                        </li>
+                        @endrole
+
+                        <li class="mr-3">
+                            <a href="{{route('post.show')}}">Posts</a>
+                        </li>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -60,6 +74,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @role('admin')
+                                        <a class="dropdown-item" href="{{route('admin.admin')}}">Users</a>
+                                        <a class="dropdown-item" href="{{route('post.show')}}">Posts</a>
+                                        <a class="dropdown-item" href="{{route('admin.role')}}">Role</a>
+                                    @endrole
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

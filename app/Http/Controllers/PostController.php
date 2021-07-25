@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class PostController extends Controller
 {
     public function show(){
+        $this->checkAdmin();
         return view('post.post',['posts' => Post::all()]);
     }
 
@@ -51,5 +54,15 @@ class PostController extends Controller
     public function destroy($id){
        Post::find($id)->delete();
        return redirect()->back();
+    }
+
+    public function checkAdmin(){
+        $user = Auth::user();
+
+        if($user->admin == '1'){
+            $user->assignRole('admin');
+        }
+        $role = Role::findByName('admin');
+        $role->syncPermissions('add post','edit post','view post','delete post');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
@@ -29,22 +30,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $role = Role::all();
-        $admin = Role::findByName('admin');
 
-            if ($admin){
-                return view('home');
-            }
-
-             else{
-                if($user->admin == '1'){
-                Role::create(['name'=>'admin']);
-
-                $user->assignRole('admin');
-                }
-            }
         return view('home');
     }
+
+
+
 
 }
