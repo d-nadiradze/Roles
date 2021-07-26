@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PHPUnit\Framework\Constraint\Count;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -66,24 +67,25 @@ class PermissionController extends Controller
     }
 
     public function addRole(RoleRequest $request){
-        if ($request->validated()){
-           $role = Role::create([
-                'name' => $request->name,
-                'guard_name' => 'web'
+        if(Count(Role::findByName($request->name)->get()) < 0) {
+
+            if ($request->validated()) {
+                $role = Role::create([
+                    'name' => $request->name,
+                    'guard_name' => 'web'
                 ]);
-        }
-        else{
-            return redirect()->back()->withErrors('errors','Select name');
-        }
+            } else {
+                return redirect()->back()->withErrors('errors', 'Select name');
+            }
 
-        if($request->permission){
-            $role->syncPermissions($request->permission);
+            if ($request->permission) {
+                $role->syncPermissions($request->permission);
+            } else {
+                return redirect()->back()->withErrors(['errors', 'Select permission']);
+            }
+            return redirect()->back()->with('success','Role successfully created');
         }
-        else{
-            return redirect()->back()->withErrors(['errors','Select permission']);
-        }
-
-        return redirect()->back()->with('success','Role successfully created');
+        return redirect()->back()->withErrors(['errors', 'The role with this name is already taken']);
 
     }
 
